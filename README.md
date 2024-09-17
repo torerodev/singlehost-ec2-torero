@@ -20,10 +20,10 @@ opentofu destroy -auto-approve\
 
 ## Using torero
 
-First grab the torero-import.json file however you want.
+First grab the torero-service.json file however you want.
 
 ```
-torero db import torero-import.json
+torero db import torero-service.json
 torero run opentofu-plan torero-in-EC2\
 --set aws-access-key=some_key\
 --set aws-secret-key=some_secret\
