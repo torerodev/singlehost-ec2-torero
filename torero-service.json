@@ -1,0 +1,30 @@
+decorators:
+    - name: ec2-keys
+      schema:
+        $id: root
+        $schema: http://json-schema.org/draft-07/schema#
+        additionalProperties: false
+        properties:
+            aws-access-key:
+                type: string
+            aws-secret-key:
+                type: string
+        required:
+            - aws-access-key
+            - aws-secret-key
+        type: object
+repositories:
+    - name: torero-single-repo
+      description: ""
+      url: https://github.com/torerodev/singlehost-ec2-torero.git
+      reference: ""
+      tags: []
+      private-key-name: ""
+services:
+    - name: torero-in-EC2
+      type: opentofu-plan
+      description: Build a single node in EC2
+      working-directory: ""
+      repository: torero-single-repo
+      decorator: ec2-keys
+
