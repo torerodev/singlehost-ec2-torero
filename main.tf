@@ -1,6 +1,8 @@
 provider "aws" {
-  region  = "${var.aws-region}"
-  profile = "${var.aws-profile}"
+  region     = "${var.aws-region}"
+  #profile    = var.aws-profile != "" ? var.aws-profile : null
+  access_key = var.aws-profile != "" ? null : var.aws-access-key
+  secret_key = var.aws-profile != "" ? null : var.aws-secret-key
 }
 
 # Use this to get unique names for stuff
@@ -18,13 +20,6 @@ resource "aws_key_pair" "deployer" {
   public_key = tls_private_key.sshkey.public_key_openssh
 }
 
-#This should create your usable ssh key as sshkey-name in the terraform working dir
-# where you ran terraform apply
-# This will be available in the terraform output 
-#resource "local_sensitive_file" "this" {
-#  content  = tls_private_key.sshkey.private_key_openssh
-#  filename = "${path.cwd}/sshkey-${aws_key_pair.deployer.key_name}"
-#}
 
 resource "aws_instance" "instance_main" {
   ami                         = "${var.instance-ami-aws2023}"
@@ -32,8 +27,8 @@ resource "aws_instance" "instance_main" {
   iam_instance_profile        = data.aws_iam_instance_profile.instance_profile.name
   key_name                    = "${var.instance-key-name != "" ? var.instance-key-name : ""}"
   associate_public_ip_address = "${var.instance-associate-public-ip}"
-  # user_data                 = "${file("${var.user-data-script}")}"
-   user_data                   = templatefile("${var.user-data-script}", 
+  # Not currently using the user_data to fill in the ssh key, but it's here for reference
+  user_data                   = templatefile("${var.user-data-script}", 
                                   {
                                     extra_key = aws_key_pair.deployer.public_key,
                                     extra_key_priv = tls_private_key.sshkey.private_key_openssh,

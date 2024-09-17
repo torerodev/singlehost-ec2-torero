@@ -7,7 +7,19 @@ variable "aws-region" {
 variable "aws-profile" {
   description = "The name of the AWS shared credentials account."
   type        = string
-  default     = "default"
+  default     = ""
+}
+
+variable "aws-access-key" {
+  description = "AWS provided access key token for account to run this plan."
+  type        = string
+  default     = "NO_ACCESS_KEY"
+}
+
+variable "aws-secret-key" {
+  description = "AWS provided access key token for account to run this plan."
+  type        = string
+  default     = "NO_SECRET_KEY"
 }
 
 variable "instance-ami" {
