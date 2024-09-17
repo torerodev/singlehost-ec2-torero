@@ -9,9 +9,12 @@ decorators:
                 type: string
             aws-secret-key:
                 type: string
+            instance-key-name:
+                type: string
         required:
             - aws-access-key
             - aws-secret-key
+            - instance-key-name
         type: object
 repositories:
     - name: torero-single-repo
